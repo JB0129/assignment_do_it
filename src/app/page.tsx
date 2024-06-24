@@ -1,113 +1,109 @@
+import Link from "next/link";
+import { AddItem } from "./AddItem";
+import { CheckBox } from "./CheckBox";
 import Image from "next/image";
 
-export default function Home() {
+export type Items = { id: number; name: string; isCompleted: boolean };
+
+export default async function Home() {
+  // 할 일 목록 불러오기
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/doong9/items`,
+    {
+      cache: "no-store",
+    }
+  );
+  const isItems = await res.json();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main className="flex flex-col justify-start items-center w-full max-w-[1200px] md:p-[24px] p-[16px]">
+      <AddItem isItems={isItems.filter((obj: Items) => !obj.isCompleted)} />
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      {/* 진행 중인 할 일과 완료된 할 일을 나누어 볼 수 있습니다. */}
+      <section className="flex md:flex-row flex-col justify-start items-start w-full">
+        {/* 할 일 목록 */}
+        <section className="flex flex-col w-full md:max-w-[588px] max-w-[696px]">
+          <Image
+            src="/todo.png"
+            alt="TO DO"
+            width={101}
+            height={36}
+            className="mt-[43.5px]"
+          />
+          <ul className="flex flex-col justify-start items-center w-full">
+            {isItems.filter((obj: Items) => !obj.isCompleted).length ? (
+              isItems
+                .filter((obj: Items) => !obj.isCompleted)
+                .map((el: Items) => (
+                  <li
+                    key={el.id}
+                    className="border-2 border-slate/900 rounded-[27px] w-full h-[50px] mt-[16px] pl-[12px] flex flex-row justify-start items-center"
+                  >
+                    <CheckBox el={el} />
+                    <Link href={`/items/${el.id}`} className=" ml-[16px]">
+                      {el.name}
+                    </Link>
+                  </li>
+                ))
+            ) : (
+              <div className="flex flex-col justify-start items-center mb-[64px]">
+                <Image
+                  src="/Todo_L.png"
+                  alt="텅빈 이미지"
+                  width={120}
+                  height={120}
+                  className="mt-[64px] mb-[24px] sm:w-[240px]"
+                />
+                <span>할 일이 없어요.</span>
+                <span>TODO를 새롭게 추가해주세요!</span>
+              </div>
+            )}
+          </ul>
+        </section>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+        {/* 완료 목록 */}
+        <section className="flex flex-col w-full md:max-w-[588px] max-w-[696px] md:ml-[24px]">
+          <Image
+            src="/done.png"
+            alt="DONE"
+            width={101}
+            height={36}
+            className="mt-[48px]"
+          />
+          <ul className="flex flex-col justify-start items-center w-full">
+            {isItems.filter((obj: Items) => obj.isCompleted).length ? (
+              isItems
+                .filter((obj: Items) => obj.isCompleted)
+                .map((el: Items) => (
+                  <li
+                    key={el.id}
+                    className="bg-violet-100 border-2 border-slate/900 rounded-[27px] w-full h-[50px] mt-[16px] pl-[12px] flex flex-row justify-start items-center"
+                  >
+                    <CheckBox el={el} />
+                    <Link
+                      href={`/items/${el.id}`}
+                      className="line-through ml-[16px]"
+                    >
+                      {el.name}
+                    </Link>
+                  </li>
+                ))
+            ) : (
+              <div className="flex flex-col justify-start items-center mb-[64px]">
+                <Image
+                  src="/Done_L.png"
+                  alt="텅빈 이미지"
+                  width={120}
+                  height={120}
+                  className="mt-[64px] mb-[24px] sm:w-[240px]"
+                />
+                <span>아직 다 한 일이 없어요.</span>
+                <span>해야 할 일을 체크해보세요!</span>
+              </div>
+            )}
+          </ul>
+        </section>
+      </section>
     </main>
   );
 }
