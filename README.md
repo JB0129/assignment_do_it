@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### 공통
 
-## Getting Started
+- [ ] 제시된 폰트, 컬러 시스템을 설정해 주세요.
+- [ ] 재사용성을 위해 공용 컴포넌트를 만들어 주세요.
+- [ ] 반응형 웹 디자인을 준수해주세요
+    - [ ] 모바일 레이아웃
+    - [ ] 태블릿 레이아웃
+    - [ ] 데스크탑 레이아웃
 
-First, run the development server:
+### 할 일 목록 페이지(`/`)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**목록 조회**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [ ] ‘로고’ 버튼을 클릭하면 ‘/’ 페이지로 이동합니다. (새로고침)
+- [ ] 진행 중인 할 일과 완료된 할 일을 나누어 볼 수 있습니다.
+- [ ] 할 일 목록은 무한스크롤로 이어집니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**할 일 추가**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [ ] 상단 입력창에 할 일 텍스트를 입력하고 `추가하기` 버튼을 클릭하거나 엔터를 치면 할 일을 새로 생성합니다.
 
-## Learn More
+**완료**
 
-To learn more about Next.js, take a look at the following resources:
+- [ ] 할 일 항목의 왼쪽 버튼을 클릭하면 체크 표시가가 되면서 완료 상태가 됩니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 할 일 상세 페이지(`/items/{itemId}`)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**할 일 수정**
 
-## Deploy on Vercel
+- [ ] 할 일 항목을 클릭한 후 항목 수정이 가능합니다.
+- [ ] 항목 이름을 수정할 수 있습니다.
+- [ ] 메모를 추가할 수 있습니다.
+- [ ] 이미지(최대 1개)를 첨부할 수 있습니다.
+- [ ] `수정 완료` 버튼을 클릭하면 수정 사항이 반영되고, 할 일 목록 페이지로 이동합니다.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**할 일 삭제**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [ ] `삭제하기` 버튼을 클릭하면 할 일 삭제가 가능하며, 삭제 후 할 일 목록 페이지로 이동합니다.
